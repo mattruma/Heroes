@@ -25,7 +25,7 @@ namespace Heroes.Data.Models
 
             var heroDocumentResponse =
                 await heroContainer.Items.CreateItemAsync(
-                    heroDocument.Id,
+                    heroDocument.Id.ToString(),
                     heroDocument);
 
             return heroDocumentResponse.Resource;
@@ -38,7 +38,7 @@ namespace Heroes.Data.Models
                _cosmosDatabase.Containers[_containerId];
 
             await heroContainer.Items.DeleteItemAsync<HeroDocument>(
-                id,
+                id.ToString(),
                 id.ToString());
         }
 
@@ -50,7 +50,7 @@ namespace Heroes.Data.Models
 
             var heroDocumentResponse =
                 await heroContainer.Items.ReadItemAsync<HeroDocument>(
-                    id,
+                    id.ToString(),
                     id.ToString());
 
             return heroDocumentResponse.Resource;
@@ -95,7 +95,7 @@ namespace Heroes.Data.Models
 
             var heroDocumentResponse =
                  await heroContainer.Items.ReplaceItemAsync<HeroDocument>(
-                     id,
+                     id.ToString(),
                      id.ToString(),
                      heroDocument);
 

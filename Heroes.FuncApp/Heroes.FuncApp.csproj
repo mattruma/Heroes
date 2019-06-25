@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Heroes.Data\Heroes.Data.csproj" />
+    <ProjectReference Include="..\Heroes.Domain\Heroes.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

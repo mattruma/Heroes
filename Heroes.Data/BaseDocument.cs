@@ -13,5 +13,11 @@ namespace Heroes.Data
 
         [JsonProperty("created_on")]
         public DateTime CreatedOn { get; set; }
+
+        public BaseDocument()
+        {
+            this.Id = Guid.NewGuid();
+            this.CreatedOn = DateTime.UtcNow;
+        }
     }
 }

@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Heroes.Data.Models;
+using Heroes.Domain.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Heroes.WebApi
 {
@@ -25,6 +30,36 @@ namespace Heroes.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1",
+                        new Info
+                        {
+                            Title = "Welcome to the Heroes for Hire REST API",
+                            Version = $"v1",
+                            Description = "We're glad you're here, and we hope you'll find the documentation helpful.",
+                            Contact = new Contact
+                            {
+                                Name = "Nick Fury",
+                                Email = "nickfury@heroesforhire.com"
+                            }
+                        });
+
+                    c.EnableAnnotations();
+                });
+
+
+            var cosmosClient =
+                new CosmosClient(
+                    Configuration["AzureCosmosDocumentStoreOptions:ConnectionString"]);
+            var cosmosDatabase =
+                cosmosClient.Databases["heroes"];
+
+            services.AddSingleton<CosmosDatabase>(cosmosDatabase);
+
+            services.AddTransient<IHeroDocumentStore, HeroDocumentStore>();
+            services.AddTransient<IHeroService, HeroService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -41,6 +76,19 @@ namespace Heroes.WebApi
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.DocumentTitle = "Heroes for Hire | API Reference";
+
+                c.DocExpansion(DocExpansion.List);
+
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Heroes for Hire REST API V1");
+            });
+
+            app.UseCors("AllowAllHeaders");
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

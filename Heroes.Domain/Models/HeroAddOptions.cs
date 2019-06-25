@@ -1,18 +1,11 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace Heroes.Data.Models
+namespace Heroes.Domain.Models
 {
-    public class HeroDocument : BaseDocument
+    public class HeroAddOptions
     {
-
-        [JsonProperty("object")]
-        public override string Object => "Hero";
-
-        [JsonProperty("hero_id")]
-        public Guid HeroId { get; set; }
-
+        [Required]
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -27,5 +20,5 @@ namespace Heroes.Data.Models
 
         [JsonProperty("notes")]
         public string Notes { get; set; }
-    }
+   }
 }
