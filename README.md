@@ -9,7 +9,7 @@ Execute the following commands in your Azure subscription at shell.azure.com:
 ```bash
 prefix="YOUR PREFIX"
 
-az group create --location eastus2 --name "${prefix}-heroes-rg"  
+az group create --location eastus2 --name "${prefix}-heroes-rg"
 
 az cosmosdb create --name "${prefix}-heroes-cosdbs" --resource-group "${prefix}-heroes-rg"
 
@@ -61,3 +61,5 @@ Should look like the below:
   }
 }
 ```
+
+To test the APIs, use PostMan and import the `Heroes API.postman_collection.json` collection.

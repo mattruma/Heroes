@@ -55,7 +55,7 @@ namespace Heroes.WebApi
             var cosmosDatabase =
                 cosmosClient.Databases["heroes"];
 
-            services.AddSingleton<CosmosDatabase>(cosmosDatabase);
+            services.AddSingleton(cosmosDatabase);
 
             services.AddTransient<IHeroDocumentStore, HeroDocumentStore>();
             services.AddTransient<IHeroService, HeroService>();

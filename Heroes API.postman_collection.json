@@ -1,0 +1,515 @@
+{
+	"info": {
+		"_postman_id": "0693ad48-70a5-4687-8bc3-8ce83663a9df",
+		"name": "Heroes API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Web API",
+			"item": [
+				{
+					"name": "Hero Add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    pm.globals.set(\"heroes.hero_id\", jsonData.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"name-{{$guid}}\",\n    \"gender\": \"gender-{{$guid}}\",\n    \"powers\": [\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\"\n    ],\n    \"affiliations\": [\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\"\n    ],\n    \"notes\": \"notes-{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44360/api/heroes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44360",
+							"path": [
+								"api",
+								"heroes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    pm.globals.set(\"heroes.hero_id\", jsonData.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"name-{{$guid}}\",\n    \"gender\": \"gender-{{$guid}}\",\n    \"powers\": [\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\"\n    ],\n    \"affiliations\": [\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\"\n    ],\n    \"notes\": \"notes-{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44360/api/heroes/{{heroes.hero_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44360",
+							"path": [
+								"api",
+								"heroes",
+								"{{heroes.hero_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero Fetch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44360/api/heroes/{{heroes.hero_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44360",
+							"path": [
+								"api",
+								"heroes",
+								"{{heroes.hero_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44360/api/heroes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44360",
+							"path": [
+								"api",
+								"heroes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:44360/api/heroes/{{heroes.hero_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44360",
+							"path": [
+								"api",
+								"heroes",
+								"{{heroes.hero_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Func App",
+			"item": [
+				{
+					"name": "Hero Add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    pm.globals.set(\"heroes.hero_id\", jsonData.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"name-{{$guid}}\",\n    \"gender\": \"gender-{{$guid}}\",\n    \"powers\": [\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\"\n    ],\n    \"affiliations\": [\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\"\n    ],\n    \"notes\": \"notes-{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:7071/api/heroes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"heroes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    pm.globals.set(\"heroes.hero_id\", jsonData.id);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"name-{{$guid}}\",\n    \"gender\": \"gender-{{$guid}}\",\n    \"powers\": [\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\",\n        \"power-{{$guid}}\"\n    ],\n    \"affiliations\": [\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\",\n        \"affiliation-{{$guid}}\"\n    ],\n    \"notes\": \"notes-{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "https://localhost:44360/api/heroes/{{heroes.hero_id}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44360",
+							"path": [
+								"api",
+								"heroes",
+								"{{heroes.hero_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero Fetch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:7071/api/heroes/{{heroes.hero_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"heroes",
+								"{{heroes.hero_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:7071/api/heroes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"heroes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hero Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "337eb383-a492-45a8-b313-530d099569ac",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response must be valid and have a body\", function () {",
+									"    pm.response.to.be.json; ",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:7071/api/heroes/{{heroes.hero_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7071",
+							"path": [
+								"api",
+								"heroes",
+								"{{heroes.hero_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
