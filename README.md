@@ -12,12 +12,6 @@ sqlPassword ="YOUR SQL PASSWORD"
 
 az group create --location eastus2 --name "${prefix}-heroes-rg"
 
-az cosmosdb create --name "${prefix}-heroes-cosdbs" --resource-group "${prefix}-heroes-rg"
-
-az cosmosdb database delete --db-name "heroes" --name "${prefix}-heroes-cosdbs" --resource-group-name "${prefix}-heroes-rg" --throughput 400
-
-az cosmosdb collection create --collection-name "heroes" --db-name "heroes" --name "${prefix}-heroes-cosdbs" --resource-group-name "${prefix}-heroes-rg" --partition-key-path "/hero_id"
-
 az sql server create --admin-password $sqlPassword --admin-user "${prefix}-heroes-sqldbs" --name "${prefix}-heroes-sqldbs" --resource-group "${prefix}-heroes-rg"
 
 az sql db create --name "${prefix}-heroes-001-sqldb" --resource-group "${prefix}-heroes-rg" --server "${prefix}-heroes-sqldbs" --tier "Basic"
