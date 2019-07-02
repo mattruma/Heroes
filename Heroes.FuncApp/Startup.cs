@@ -1,29 +1,29 @@
-﻿using Heroes.Data.Models;
+﻿using Heroes.Data;
+using Heroes.Data.Models;
 using Heroes.Domain.Models;
-using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
 [assembly: FunctionsStartup(typeof(Heroes.FuncApp.Startup))]
 namespace Heroes.FuncApp
 {
-    public class Startup: FunctionsStartup
+    public class Startup : FunctionsStartup
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            var cosmosClient =
-                new CosmosClient(
-                    Environment.GetEnvironmentVariable("AzureCosmosDocumentStoreOptions:ConnectionString"));
-            var cosmosDatabase =
-                cosmosClient.Databases["heroes"];
+            var connectionString = 
+                Environment.GetEnvironmentVariable("SqlServer:ConnectionString");
 
             var services =
                 builder.Services;
 
-            services.AddSingleton(cosmosDatabase);
+            services.AddDbContext<EntitiesDbContext>(
+                options => SqlServerDbContextOptionsExtensions.UseSqlServer(
+                    options, connectionString));
 
-            services.AddTransient<IHeroDocumentStore, HeroDocumentStore>();
+            services.AddTransient<IHeroEntityStore, HeroEntityStore>();
             services.AddTransient<IHeroService, HeroService>();
         }
     }

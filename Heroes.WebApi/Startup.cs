@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Heroes.Data;
 using Heroes.Data.Models;
 using Heroes.Domain.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -49,15 +43,14 @@ namespace Heroes.WebApi
                 });
 
 
-            var cosmosClient =
-                new CosmosClient(
-                    Configuration["AzureCosmosDocumentStoreOptions:ConnectionString"]);
-            var cosmosDatabase =
-                cosmosClient.Databases["heroes"];
+            var connectionString = 
+                Configuration["SqlServer:ConnectionString"];
 
-            services.AddSingleton(cosmosDatabase);
+            services.AddDbContext<EntitiesDbContext>(
+                options => SqlServerDbContextOptionsExtensions.UseSqlServer(
+                    options, connectionString));
 
-            services.AddTransient<IHeroDocumentStore, HeroDocumentStore>();
+            services.AddTransient<IHeroEntityStore, HeroEntityStore>();
             services.AddTransient<IHeroService, HeroService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -3,13 +3,10 @@ using System;
 
 namespace Heroes.Data
 {
-    public interface IDocument
+    public interface IEntity
     {
         [JsonProperty("id")]
         Guid Id { get; set; }
-
-        [JsonProperty("object")]
-        string Object { get; }
 
         [JsonProperty("created_on")]
         DateTime CreatedOn { get; set; }

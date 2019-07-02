@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using Heroes.Domain.Models;
 
 namespace Heroes.WebApi.Controllers

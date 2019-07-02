@@ -1,5 +1,6 @@
 ﻿using Heroes.Data.Models;
 using Newtonsoft.Json;
+using System;
 
 namespace Heroes.Domain.Models
 {
@@ -25,17 +26,25 @@ namespace Heroes.Domain.Models
         }
 
         public Hero(
-            HeroDocument heroDocument)
+            HeroEntity heroEntity)
         {
 
-            this.Id = heroDocument.Id;
-            this.Object = heroDocument.Object;
-            this.Name = heroDocument.Name;
-            this.Gender = heroDocument.Gender;
-            this.Affiliations = heroDocument.Affiliations;
-            this.Powers = heroDocument.Powers;
-            this.Notes = heroDocument.Notes;
-            this.CreatedOn = heroDocument.CreatedOn;
+            this.Id = heroEntity.Id;
+            this.Name = heroEntity.Name;
+            this.Gender = heroEntity.Gender;
+
+            if (!string.IsNullOrWhiteSpace(heroEntity.Affiliations))
+            {
+                this.Affiliations = heroEntity.Affiliations.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            if (!string.IsNullOrWhiteSpace(heroEntity.Powers))
+            {
+                this.Powers = heroEntity.Powers.Split(",", StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            this.Notes = heroEntity.Notes;
+            this.CreatedOn = heroEntity.CreatedOn;
         }
     }
 }

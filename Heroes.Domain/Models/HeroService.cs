@@ -8,33 +8,41 @@ namespace Heroes.Domain.Models
 {
     public class HeroService : IHeroService
     {
-        private readonly IHeroDocumentStore _heroDocumentStore;
+        private readonly IHeroEntityStore _heroEntityStore;
 
         public HeroService(
-            IHeroDocumentStore heroDocumentStore)
+            IHeroEntityStore heroEntityStore)
         {
-            _heroDocumentStore = heroDocumentStore;
+            _heroEntityStore = heroEntityStore;
         }
 
         public async Task<Hero> AddAsync(
             HeroAddOptions heroAddOptions)
         {
-            var heroDocument =
-                new HeroDocument
+            var heroEntity =
+                new HeroEntity
                 {
                     Name = heroAddOptions.Name,
                     Gender = heroAddOptions.Gender,
-                    Affiliations = heroAddOptions.Affiliations,
-                    Powers = heroAddOptions.Powers,
                     Notes = heroAddOptions.Notes
                 };
 
-            heroDocument =
-                await _heroDocumentStore.AddAsync(
-                    heroDocument);
+            if (heroAddOptions.Affiliations != null)
+            {
+                heroEntity.Affiliations = string.Join(",", heroAddOptions.Affiliations);
+            }
+
+            if (heroAddOptions.Powers != null)
+            {
+                heroEntity.Powers = string.Join(",", heroAddOptions.Powers);
+            }
+
+            heroEntity =
+                await _heroEntityStore.AddAsync(
+                    heroEntity);
 
             var hero =
-               new Hero(heroDocument);
+               new Hero(heroEntity);
 
             return hero;
         }
@@ -43,28 +51,44 @@ namespace Heroes.Domain.Models
             Guid id,
             HeroUpdateOptions heroUpdateOptions)
         {
-            var heroDocument =
-                await _heroDocumentStore.FetchByIdAsync(
+            var heroEntity =
+                await _heroEntityStore.FetchByIdAsync(
                     id);
 
-            if (heroDocument == null)
+            if (heroEntity == null)
             {
                 throw new NullReferenceException("Hero does not exist.");
             }
 
-            heroDocument.Name = heroUpdateOptions.Name;
-            heroDocument.Gender = heroUpdateOptions.Gender;
-            heroDocument.Affiliations = heroUpdateOptions.Affiliations;
-            heroDocument.Powers = heroUpdateOptions.Powers;
-            heroDocument.Notes = heroUpdateOptions.Notes;
+            heroEntity.Name = heroUpdateOptions.Name;
+            heroEntity.Gender = heroUpdateOptions.Gender;
+            heroEntity.Notes = heroUpdateOptions.Notes;
 
-            heroDocument =
-                await _heroDocumentStore.UpdateByIdAsync(
+            if (heroUpdateOptions.Affiliations != null)
+            {
+                heroEntity.Affiliations = string.Join(",", heroUpdateOptions.Affiliations);
+            }
+            else
+            {
+                heroEntity.Affiliations = null;
+            }
+
+            if (heroUpdateOptions.Powers != null)
+            {
+                heroEntity.Powers = string.Join(",", heroUpdateOptions.Powers);
+            }
+            else
+            {
+                heroEntity.Powers = null;
+            }
+
+            heroEntity =
+                await _heroEntityStore.UpdateByIdAsync(
                     id,
-                    heroDocument);
+                    heroEntity);
 
             var hero =
-               new Hero(heroDocument);
+               new Hero(heroEntity);
 
             return hero;
         }
@@ -72,44 +96,44 @@ namespace Heroes.Domain.Models
         public async Task DeleteByIdAsync(
             Guid id)
         {
-            var heroDocument =
-                await _heroDocumentStore.FetchByIdAsync(
+            var heroEntity =
+                await _heroEntityStore.FetchByIdAsync(
                     id);
 
-            if (heroDocument == null)
+            if (heroEntity == null)
             {
                 throw new NullReferenceException("Hero does not exist.");
             }
 
-            await _heroDocumentStore.DeleteByIdAsync(
+            await _heroEntityStore.DeleteByIdAsync(
                 id);
         }
 
         public async Task<Hero> FetchByIdAsync(
             Guid id)
         {
-            var heroDocument =
-                await _heroDocumentStore.FetchByIdAsync(
+            var heroEntity =
+                await _heroEntityStore.FetchByIdAsync(
                     id);
 
-            if (heroDocument == null)
+            if (heroEntity == null)
             {
                 throw new NullReferenceException("Hero does not exist.");
             }
 
             var hero =
-               new Hero(heroDocument);
+               new Hero(heroEntity);
 
             return hero;
         }
 
         public async Task<IEnumerable<Hero>> ListAsync()
         {
-            var heroDocumentList =
-                await _heroDocumentStore.ListAsync();
+            var heroEntityList =
+                await _heroEntityStore.ListAsync();
 
             var heroList =
-                heroDocumentList.Select(x => new Hero(x));
+                heroEntityList.Select(x => new Hero(x));
 
             return heroList;
         }
